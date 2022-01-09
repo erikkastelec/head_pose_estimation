@@ -25,12 +25,12 @@ Returns pitch, yaw roll for the provided image
 ## Dlib detector
 Code for the detector is located inside dlib_head_pose_estimator.py 
 
-Runs real time head pose estimation on the webcam input and shows the output in a new window.< br/>
+Runs real time head pose estimation on the webcam input and shows the output in a new window. <br />
 Scale percent option (--scale_percent x) scales the image to x% of initial size.
 
 `python dlib_head_pose_estimator.py  --scale_percent 30`
 
-Runs head pose estimation on the whole video and saves it to out_path. < br/>
+Runs head pose estimation on the whole video and saves it to out_path. <br />
 Scale percent option (--scale_percent x) scales the image to x% of initial size.
 
 `python dlib_head_pose_estimator.py --video True --video_path "video_path" --out_path "out_path --scale_percent 30`

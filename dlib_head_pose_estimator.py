@@ -6,8 +6,8 @@ import cv2
 import sys
 import os
 import numpy as np
-import scipy.io as sio
 import dlib
+import argparse
 from mediapipe_facemesh_head_pose_estimator import direction_based_on_angle
 class faceLandmarkDetection:
     def __init__(self, landmarkPath):
@@ -334,4 +334,18 @@ def image_evaluation(path, debug=False, image=None):
 
 
 if __name__ == "__main__":
-    webcam(video=True)
+    parser = argparse.ArgumentParser(description="Head Pose Estimator")
+    parser.add_argument("--image", type=bool, default=False, help="Set to true to process an image")
+    parser.add_argument("--image_path", type=str, default=False, help="Path to image")
+    parser.add_argument("--video", type=bool, default=False, help="Set to true to process a video")
+    parser.add_argument("--video_path", type=str, required=False, help="Path to video")
+    parser.add_argument("--out_path", type=str, required=False, help="Output video path")
+    parser.add_argument("--scale_percent", type=int, required=False, help="Process in x% of original video size")
+    args = parser.parse_args()
+
+    if args.video:
+        webcam(video=args.video, video_path=args.video_path, out_path=args.out_path, scale_percent=args.scale_percent)
+    elif args.image:
+        print(image_evaluation(args.image_path))
+    else:
+        webcam(scale_percent=args.scale_percent)

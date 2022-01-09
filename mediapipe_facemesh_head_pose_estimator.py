@@ -10,9 +10,7 @@ from face_geometry import (
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_mesh = mp.solutions.face_mesh
-
-import scipy.io as sio
-
+import argparse
 
 def direction_based_on_angle(y):
     if y > 20:
@@ -147,16 +145,17 @@ def webcam(video=False, video_path="", out_path="mediapipe.avi"):
                 y = angles[1]
                 text = direction_based_on_angle(y)
                 cv2.putText(image, text, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+                cv2.putText(image, "Yaw Angle: " + str(round(angles[1])), (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
                 if not video:
                     cv2.imshow('MediaPipe Face Mesh', image)
-                cv2.putText(image, "Yaw Angle: " + str(round(angles[1])), (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
 
                 if not video:
                     if cv2.waitKey(5) & 0xFF == 27:
                         break
                 else:
                     out.write(image)
-
+    if video:
+        out.release()
     cap.release()
     print("DONE")
 
@@ -266,9 +265,20 @@ def image_evaluation(path, debug=False, image=None):
 
 
 if __name__ == '__main__':
-    # process video
-    webcam(video=True, video_path="./test_video.mp4")
-    # capture from webcam
-    # webcam()
+    parser = argparse.ArgumentParser(description="Head Pose Estimator")
+    parser.add_argument("--image", type=bool, default=False, help="Set to true to process an image")
+    parser.add_argument("--image_path", type=str, default=False, help="Path to image")
+    parser.add_argument("--video", type=bool, default=False, help="Set to true to process a video")
+    parser.add_argument("--video_path", type=str, required=False, help="Path to video")
+    parser.add_argument("--out_path", type=str, required=False, help="Output video path")
+
+    args = parser.parse_args()
+
+    if args.video:
+        webcam(video=args.video, video_path=args.video_path, out_path=args.out_path)
+    elif args.image:
+        print(image_evaluation(args.image_path))
+    else:
+        webcam()
 
 

@@ -2,6 +2,11 @@
 
 Repository contains implementation of Dlib face detector as well as Mediapipe Facemesh detector for head pose estimation. 
 
+
+## Installation
+
+Run `pip install -r requirements.txt` in the root directory of the project.
+
 ## Mediapipe Facemesh detector
 Code for the detector is located inside mediapipe_facemesh_head_pose_estimator.py
 
